@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Aduid</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <form id="Form">
+      <label for="country">Country:</label>
+      <select id="country" name="country">
+        <option value="ES">ES</option>
+        <option value="US">US</option>
+      </select>
+
+      <label for="defaultP">DefaultP:</label>
+      <input type="number" id="defaultP" name="defaultP" value="1" />
+
+      <label for="houseTm">HouseTm:</label>
+      <input type="number" id="houseTm" name="houseTm" value="3000" />
+
+      <label for="maxHReload">MaxHReload:</label>
+      <input type="number" id="maxHReload" name="maxHReload" value="1" />
+
+      <label for="telemetryProb">TelemetryProb:</label>
+      <input type="text" id="telemetryProb" name="telemetryProb" value="1" />
+
+      <label for="pList">PList:</label>
+      <select id="pList" name="pList" multiple></select>
+
+      <label for="adexIds">AdexIds:</label>
+      <select id="adexIds" name="adexIds" multiple></select>
+
+      <label for="houseSelector">Select House IDs:</label>
+      <select id="houseSelector" name="houseSelector" multiple></select>
+
+      <label for="prebidSelector">Select Prebid IDs:</label>
+      <select id="prebidSelector" name="prebidSelector" multiple></select>
+
+        <label for="reloadSelector">Select Reload IDs:</label>
+        <select id="reloadSelector" name="reloadSelector" multiple></select>
+
+        <label for="reloadCampaignSelector">Select Reload Campaign IDs:</label>
+        <select id="reloadCampaignSelector" name="reloadCampaignSelector" multiple></select>
+
+
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      const adexIds = [2559776610];
+      const adexIdsSelector = document.getElementById("adexIds");
+      adexIds.forEach((id) => {
+        const option = document.createElement("option");
+        option.value = id;
+        option.textContent = id;
+        adexIdsSelector.appendChild(option);
+      });
+
+      const pList = [
+        0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.6, 0.75, 1,
+        1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4,
+      ];
+      const pListSelector = document.getElementById("pList");
+      pList.forEach((id) => {
+        const option = document.createElement("option");
+        option.value = id;
+        option.textContent = id;
+        pListSelector.appendChild(option);
+      });
+
+      const houseIds = [
+        45125937, 81003777, 4815141041, 79449777, 67317777, 4633770194,
+        4717022388, 5170458185,
+      ];
+      const houseSelector = document.getElementById("houseSelector");
+      houseIds.forEach((id) => {
+        const option = document.createElement("option");
+        option.value = id;
+        option.textContent = id;
+        houseSelector.appendChild(option);
+      });
+
+      const prebidIds = [
+        { id: "5359233312", comment: "Teads" },
+        { id: "4406227815", comment: "RichAudience" },
+        { id: "4402193934", comment: "Criteo" },
+        { id: "5180398781", comment: "Pubmatic" },
+        { id: "83488497", comment: "AppNexus" },
+        { id: "83522457", comment: "Rubicon" },
+        { id: "4402208836", comment: "Smart AdServer" },
+        { id: "5354911588", comment: "RevenueMaker" },
+      ];
+
+      const prebidSelector = document.getElementById("prebidSelector");
+      prebidIds.forEach((item) => {
+        const option = document.createElement("option");
+        option.value = item.id;
+        option.textContent = item.id + "-" + item.comment;
+        prebidSelector.appendChild(option);
+      });
+
+
+        const reloadIds = [45125937, 81003777, 4815141041, 4764613895, 4811457786, 79449777, 67317777, 4633770194, 4717022388, 5170458185, 5359233312, 4402193934, 5180398781, 83488497, 83522457, 4402208836, 5354911588, 4406227815];
+        const reloadSelector = document.getElementById('reloadSelector');
+        reloadIds.forEach(id => {
+            const option = document.createElement('option');
+            option.value = id;
+            option.textContent = id;
+            reloadSelector.appendChild(option);
+        });
+
+        const reloadCampaignIds = [2559776610, 483876297, 3038846356, 2098434238, 494913417, 494827977, 2106449176, 2108387998, 2106441352, 2106520950, 2106523863, 2667870692, 2668441436, 2668163671, 2668164637];
+        const reloadCampaignSelector = document.getElementById('reloadCampaignSelector');
+        reloadCampaignIds.forEach(id => {
+            const option = document.createElement('option');
+            option.value = id;
+            option.textContent = id;
+            reloadCampaignSelector.appendChild(option);
+        });
+
+      document
+        .getElementById("Form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const country = formData.get('country');
+            const defaultP = formData.get('defaultP');
+            const houseTm = formData.get('houseTm');
+            const maxHReload = formData.get('maxHReload');
+            const telemetryProb = formData.get('telemetryProb');
+            const pList = formData.get('pList').split(',').map(Number);
+            const adexIds = formData.get('adexIds').split(',').map(Number);
+            const houseIdsSelected = formData.get('houseSelector').split(',').map(Number);
+            const prebidsIdsSelected = formData.get('prebidSelector').split(',').map(Number);
+            const reloadIdsSelected = formData.get('reloadSelector').split(',').map(Number);
+            const reloadCampaignSelected = formData.get('reloadCampaignSelector').split(',').map(Number);
+            const jsonData = JSON.stringify({
+                [country]: {
+                    defaultP: defaultP,
+                    houseTm: houseTm,
+                    maxHReload: maxHReload,
+                    pList: pList,
+                    adexIds: adexIds,
+                    houseIds: houseIdsSelected,
+                    prebidIds: prebidsIdsSelected,
+                    reloadIds: reloadIdsSelected,
+                    reloadCampaignIds: reloadCampaignSelected,
+                }
+            });
+
+            console.log(jsonData)
+
+            fetch('http://localhost:3000/aduid', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonData
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+  </body>
+</html>
